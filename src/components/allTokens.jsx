@@ -144,7 +144,7 @@ export default function AllTokens({ updateList }) {
   const columnTitle = data.length > 0 && Object.keys(data[0]);
 
   // Exclude items from idLogoGeckoId and dates
-  const filteredColumnTitles = columnTitle.filter(key => !idLogoGeckoId.includes(key) && !dates.includes(key));
+  const filteredColumnTitles = columnTitle && columnTitle.filter(key => !idLogoGeckoId.includes(key) && !dates.includes(key));
 
   // Concatenate in the specified order
   const organizedColumnTitles = idLogoGeckoId.concat(filteredColumnTitles, dates);
@@ -156,8 +156,6 @@ export default function AllTokens({ updateList }) {
       return title.replace(/_/g, ' ');
     }
   }
-
-
 
   return (
     <div className='table-main'>
