@@ -21,20 +21,20 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 function formatNumber(number) {
   // Check if the number is an integer or decimal
   if (Number.isInteger(number)) {
-      // Format integer numbers with thousands separators
-      return number.toLocaleString();
+    // Format integer numbers with thousands separators
+    return number.toLocaleString();
   } else {
-      // Split the number into integer and decimal parts
-      let parts = number.toLocaleString().split('.');
-      // Format integer part with thousands separators
-      parts[0] = parts[0].replace(/,/g, '');
-      parts[0] = parseInt(parts[0]).toLocaleString();
-      // Join the integer and decimal parts and return
-      return parts.join('.');
+    // Split the number into integer and decimal parts
+    let parts = number.toLocaleString().split('.');
+    // Format integer part with thousands separators
+    parts[0] = parts[0].replace(/,/g, '');
+    parts[0] = parseInt(parts[0]).toLocaleString();
+    // Join the integer and decimal parts and return
+    return parts.join('.');
   }
 }
 
-export default function AllTokens({updateList}) {
+export default function AllTokens({ updateList }) {
   const [data, setData] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('symbol');
@@ -209,17 +209,32 @@ export default function AllTokens({updateList}) {
                       checked={isSelected(item.id)}
                     />
                   </TableCell>
-                  {Object.keys(item).map(key => (
-                    <TableCell 
-                    sx={{ color: '#282828', 
-                          textAlign: 'center',
-                          verticalAlign: 'center',
-                          textTransform: 'capitalize'}}
-                    key={key} 
-                    align="right">
-                      {typeof item[key] == 'number' ? `$${formatNumber( item[key])}`:  item[key]}
-                    </TableCell>
-                  ))}
+                  {Object.keys(item).map(key => {
+                    // Exclude "success" column
+                    if (key !== "") {
+                        return (
+                            <TableCell 
+                                sx={{ 
+                                    color: '#282828', 
+                                    textAlign: 'center',
+                                    verticalAlign: 'center',
+                                }}
+                                key={key} 
+                                align="right"
+                            >
+                                {typeof item[key] === 'string' && item[key].startsWith('https://assets.') ? (
+                                    <img src={item[key]} alt={`Logo for ${key}`} style={{ maxWidth: '100px' }} />
+                                ) : typeof item[key] === 'string' && item[key].startsWith('http') ? (
+                                    <a href={item[key]} target="_blank" rel="noopener noreferrer">
+                                        {item[key]}
+                                    </a>
+                                ) : (
+                                    typeof item[key] === 'number' ? `$${formatNumber(item[key])}` : item[key]
+                                )}
+                            </TableCell>
+                        );
+                    }
+                })}
                 </TableRow>
               ))}
             </TableBody>
@@ -229,4 +244,3 @@ export default function AllTokens({updateList}) {
     </div>
   );
 }
-
