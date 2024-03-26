@@ -44,27 +44,27 @@ export default function AllTokens({ updateList }) {
   // Deletes token selected
   const handleDelete = async (idsToDelete) => {
     try {
-        const response = await fetch(`${BASE_URL}/delete/tokens`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ ids: idsToDelete })
-        });
+      const response = await fetch(`${BASE_URL}/delete/tokens`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ids: idsToDelete })
+      });
 
-        const responseData = await response.json();
-        
-        // After successful deletion, trigger refetch
-        setUpdateToken(prevState => !prevState);
-        setSelected([])
+      const responseData = await response.json();
+
+      // After successful deletion, trigger refetch
+      setUpdateToken(prevState => !prevState);
+      setSelected([])
     } catch (error) {
       console.log('error: ', error)
     }
-};
+  };
 
   // Executes the handlesubmit just when there's a selected token
   const submitDelete = () => {
-    if (selected.length>0){
+    if (selected.length > 0) {
       handleDelete(selected)
     }
   }
@@ -72,7 +72,7 @@ export default function AllTokens({ updateList }) {
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);     
+    setOrderBy(property);
   };
 
   const handleSelectAllClick = (event) => {
@@ -105,7 +105,7 @@ export default function AllTokens({ updateList }) {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  
+
   // Gets all the tokens data
   useEffect(() => {
     const apiUrl = `${BASE_URL}/get/tokens`;
@@ -116,22 +116,48 @@ export default function AllTokens({ updateList }) {
         setData(data.response);
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [updateToken, updateList]); 
+  }, [updateToken, updateList]);
 
-     // Sort the data based on orderBy and order
-     const sortedData = data && data?.slice().sort((a, b) => {
-      if (order === 'asc') {
-        return a[orderBy] < b[orderBy] ? -1 : 1;
-      } else {
-        return a[orderBy] > b[orderBy] ? -1 : 1;
-      }
+  function organizeProps(array) {
+    const organizedArray = array.map(obj => {
+        const { logo, symbol, gecko_id, updated_at, created_at, ...rest } = obj;
+        return { logo, symbol, gecko_id, ...rest, updated_at, created_at };
     });
-  
+    return organizedArray;
+}
+
+  const organizedTokens = data && organizeProps(data)
+  console.log(organizedTokens)
+
+  // Sort the data based on orderBy and order
+  const sortedData = organizedTokens && organizedTokens?.slice().sort((a, b) => {
+    if (order === 'asc') {
+      return a[orderBy] < b[orderBy] ? -1 : 1;
+    } else {
+      return a[orderBy] > b[orderBy] ? -1 : 1;
+    }
+  });
+
+  // Organize the order to display the column titles
+  const idLogoGeckoId = ["logo", "symbol", "gecko_id"];
+  const dates = ["created_at", "updated_at"];
+  const columnTitle = data.length > 0 && Object.keys(data[0]);
+
+  // Exclude items from idLogoGeckoId and dates
+  const filteredColumnTitles = columnTitle.filter(key => !idLogoGeckoId.includes(key) && !dates.includes(key));
+
+  // Concatenate in the specified order
+  const organizedColumnTitles = idLogoGeckoId.concat(filteredColumnTitles, dates);
+
 
   // Function to format the title by replacing underscores with spaces
   const formatTitle = (title) => {
-    return title.replace(/_/g, ' ');
+    if (title){
+      return title.replace(/_/g, ' ');
+    }
   }
+
+
 
   return (
     <div className='table-main'>
@@ -139,23 +165,23 @@ export default function AllTokens({ updateList }) {
       <Paper>
         <Toolbar>
           <Typography variant="h6" id="tableTitle" component="div">
-          {selected.length > 0 ? `${selected.length} Selected` : 'Watchlist'}
+            {selected.length > 0 ? `${selected.length} Selected` : 'Watchlist'}
           </Typography>
-          <Tooltip  title={selected.length>0? 'Delete': 'Filter list'}>
+          <Tooltip title={selected.length > 0 ? 'Delete' : 'Filter list'}>
             <IconButton onClick={submitDelete}>
-            {selected.length>0? <DeleteIcon />:  <FilterListIcon />}
+              {selected.length > 0 ? <DeleteIcon /> : <FilterListIcon />}
             </IconButton>
           </Tooltip>
         </Toolbar>
         <TableContainer>
           <Table>
-          <caption>Here you can see all the tokens in the watchlist</caption>
+            <caption>Here you can see all the tokens in the watchlist</caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ backgroundColor: '#023e7d'}} padding="checkbox">
+                <TableCell sx={{ backgroundColor: '#023e7d' }} padding="checkbox">
                   <Checkbox
                     color="primary"
-                    style={{color: '#fff'}}
+                    style={{ color: '#fff' }}
                     indeterminate={selected.length > 0 && selected.length < data.length}
                     checked={data.length > 0 && selected.length === data.length}
                     onChange={handleSelectAllClick}
@@ -164,32 +190,33 @@ export default function AllTokens({ updateList }) {
                     }}
                   />
                 </TableCell>
-                {data.length > 0 && Object.keys(data[0]).map(key => (
-                  <TableCell
-                    key={key}
-                    sx={{ backgroundColor: '#023e7d', 
-                          color: '#fff', 
-                          textAlign: 'center',
-                          minWidth: 140,
-                          verticalAlign: 'center',
-                          textTransform: 'capitalize'}}
-                    className='table-cell-header'
-                    align="left"
-                  >
-                    <TableSortLabel
-                      active={orderBy === key}
-                      direction={orderBy === key ? order : 'asc'}
-                      onClick={() => handleRequestSort(key)}
-                    >
-                      {formatTitle(key)}
-                      {orderBy === key ? (
-                        <span style={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                        </span>
-                      ) : null}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
+                {/* {data.length > 0 && Object.keys(data[0]).map(key => { */}
+                {organizedColumnTitles.length > 0 && organizedColumnTitles?.map(key => {
+                  if (key !== 'success' && key !== 'id') {
+                    return (
+                      <TableCell
+                        key={key}
+                        sx={{ backgroundColor: '#023e7d', color: '#fff', textAlign: 'center', minWidth: 140, verticalAlign: 'center', textTransform: 'capitalize' }}
+                        className='table-cell-header'
+                        align="left"
+                        
+                      >
+                        <TableSortLabel
+                          active={orderBy === key}
+                          direction={orderBy === key ? order : 'asc'}
+                          onClick={() => handleRequestSort(key)}
+                        >
+                          {formatTitle(key)}
+                          {orderBy === key ? (
+                            <span style={visuallyHidden}>
+                              {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                            </span>
+                          ) : null}
+                        </TableSortLabel>
+                      </TableCell>
+                    )
+                  }
+                })}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -211,30 +238,30 @@ export default function AllTokens({ updateList }) {
                   </TableCell>
                   {Object.keys(item).map(key => {
                     // Exclude "success" column
-                    if (key !== "") {
-                        return (
-                            <TableCell 
-                                sx={{ 
-                                    color: '#282828', 
-                                    textAlign: 'center',
-                                    verticalAlign: 'center',
-                                }}
-                                key={key} 
-                                align="right"
-                            >
-                                {typeof item[key] === 'string' && item[key].startsWith('https://assets.') ? (
-                                    <img src={item[key]} alt={`Logo for ${key}`} style={{ maxWidth: '100px' }} />
-                                ) : typeof item[key] === 'string' && item[key].startsWith('http') ? (
-                                    <a href={item[key]} target="_blank" rel="noopener noreferrer">
-                                        {item[key]}
-                                    </a>
-                                ) : (
-                                    typeof item[key] === 'number' ? `$${formatNumber(item[key])}` : item[key]
-                                )}
-                            </TableCell>
-                        );
+                    if (key !== "success" && key !== 'id') {
+                      return (
+                        <TableCell
+                          sx={{
+                            color: '#282828',
+                            textAlign: 'center',
+                            verticalAlign: 'center',
+                          }}
+                          key={key}
+                          align="right"
+                        >
+                          {typeof item[key] === 'string' && item[key].startsWith('https://assets.') ? (
+                            <img src={item[key]} alt={`Logo for ${key}`} style={{ maxWidth: '100px' }} />
+                          ) : typeof item[key] === 'string' && item[key].startsWith('http') ? (
+                            <a href={item[key]} target="_blank" rel="noopener noreferrer">
+                              {item[key]}
+                            </a>
+                          ) : (
+                            typeof item[key] === 'number' ? `${formatNumber(item[key])}` : item[key]
+                          )}
+                        </TableCell>
+                      );
                     }
-                })}
+                  })}
                 </TableRow>
               ))}
             </TableBody>
