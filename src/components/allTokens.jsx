@@ -1,131 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Paper from '@mui/material/Paper';
-// import Checkbox from '@mui/material/Checkbox';
-// import './general.css';
-
-// const BASE_URL = import.meta.env.VITE_API_URL
-
-// export default function AllTokens() {
-//   const [data, setData] = useState([]);
-//   const [order, setOrder] = React.useState('asc');
-//   const [orderBy, setOrderBy] = React.useState('calories');
-//   const [selected, setSelected] = React.useState([]);
-
-//   const handleRequestSort = (event, property) => {
-//     const isAsc = orderBy === property && order === 'asc';
-//     setOrder(isAsc ? 'desc' : 'asc');
-//     setOrderBy(property);
-//   };
-
-//   const handleSelectAllClick = (event) => {
-//     if (event.target.checked) {
-//       const newSelected = rows.map((n) => n.id);
-//       setSelected(newSelected);
-//       return;
-//     }
-//     setSelected([]);
-//   };
-
-//   const handleClick = (event, id) => {
-//     const selectedIndex = selected.indexOf(id);
-//     let newSelected = [];
-
-//     if (selectedIndex === -1) {
-//       newSelected = newSelected.concat(selected, id);
-//     } else if (selectedIndex === 0) {
-//       newSelected = newSelected.concat(selected.slice(1));
-//     } else if (selectedIndex === selected.length - 1) {
-//       newSelected = newSelected.concat(selected.slice(0, -1));
-//     } else if (selectedIndex > 0) {
-//       newSelected = newSelected.concat(
-//         selected.slice(0, selectedIndex),
-//         selected.slice(selectedIndex + 1),
-//       );
-//     }
-//     setSelected(newSelected);
-//   };
-
-//   const isSelected = (id) => selected.indexOf(id) !== -1;
-
-//   useEffect(() => {
-//     const apiUrl = `${BASE_URL}/get/tokens`;
-
-//     fetch(apiUrl)
-//       .then(response => response.json())
-//       .then(data => {
-//         setData(data.response);
-//       })
-//       .catch(error => console.error('Error fetching data:', error));
-//   }, []); 
-
-//     // Function to format the title by replacing underscores with spaces
-//     const formatTitle = (title) => {
-//         return title.replace(/_/g, ' ');
-//       }
-
-//       return (
-//         <div className='table-main'>
-//           <h2 className='table-title'>Watchlist</h2>
-//           <TableContainer component={Paper}>
-//             <Table sx={{ minWidth: 650 }} 
-//               aria-labelledby="tableTitle"
-//               aria-label="simple table">
-//               <caption>Here you can see all the tokens in the watchlist</caption>
-//               <TableHead>
-//                 <TableRow className='table-row'>
-//                   {/* Empty TableCell for checkbox */}
-//                   <TableCell  sx={{ backgroundColor: '#023e7d'}}>
-//                     <Checkbox
-//                           style={{color: '#fff'}}
-//                           // checked={isItemSelected}
-//                           // inputProps={{
-//                           //   'aria-labelledby': labelId,
-//                           // }}
-//                         />
-//                   </TableCell>
-//                   {data.length > 0 && Object.keys(data[0]).map(key => (
-//                     <TableCell
-//                       sx={{ textAlign: 'center', fontWeight: 'bold', backgroundColor: '#023e7d', color: '#fff' }}
-//                       className='table-cell'
-//                       key={key}>
-//                       {formatTitle(key)}
-//                     </TableCell>
-//                   ))}
-//                 </TableRow>
-//               </TableHead>
-//               <TableBody>
-//                 {data.map(item => (
-//                   <TableRow hover key={item.id}>
-//                     <TableCell>
-//                       <Checkbox
-//                         color="primary"
-//                         // checked={isItemSelected}
-//                         // inputProps={{
-//                         //   'aria-labelledby': labelId,
-//                         // }}
-//                       />
-//                     </TableCell>
-//                     {/* Render cells for the rest of the values */}
-//                     {Object.keys(item).map(key => (
-//                       <TableCell key={key} sx={{ textAlign: 'center' }}>
-//                         {item[key]}
-//                       </TableCell>
-//                     ))}
-//                   </TableRow>
-//                 ))}
-//               </TableBody>
-//             </Table>
-//           </TableContainer>
-//         </div>
-//       );
-// }
-
 import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -145,6 +17,22 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+function formatNumber(number) {
+  // Check if the number is an integer or decimal
+  if (Number.isInteger(number)) {
+      // Format integer numbers with thousands separators
+      return number.toLocaleString();
+  } else {
+      // Split the number into integer and decimal parts
+      let parts = number.toLocaleString().split('.');
+      // Format integer part with thousands separators
+      parts[0] = parts[0].replace(/,/g, '');
+      parts[0] = parseInt(parts[0]).toLocaleString();
+      // Join the integer and decimal parts and return
+      return parts.join('.');
+  }
+}
 
 export default function AllTokens({updateList}) {
   const [data, setData] = useState([]);
@@ -329,7 +217,7 @@ export default function AllTokens({updateList}) {
                           textTransform: 'capitalize'}}
                     key={key} 
                     align="right">
-                      {item[key]}
+                      {typeof item[key] == 'number' ? `$${formatNumber( item[key])}`:  item[key]}
                     </TableCell>
                   ))}
                 </TableRow>
