@@ -1,0 +1,135 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+footer{
+  margin-top: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #f8f9fa;
+}
+
+.subContainer{
+  width: 100%;
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items: center;
+  /* border: #007bff solid 1px; */
+}
+
+h1{
+  margin: 1rem;
+}
+
+.input-group {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  /* border: #007bff solid 1px; */
+}
+
+.input-group-2 {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 50%;
+  /* border: #007bff solid 1px; */
+}
+
+.checkbox{
+  box-shadow: none
+}
+
+label {
+  font-weight: bold;
+  margin: 0 0 5px 0; 
+}
+
+
+input {
+  padding: 15px;
+  width: 100%;
+  outline: none;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+.submit {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  width: 30%;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.span{
+  margin: 1rem 0 1rem 0;
+  width: 99%;
+  border: #282828 solid 1px;
+}
+
+/* ------------------------------------- TOKEN DETAILS -------------------------------- */
+
+.tokenData-main-container{
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 98%;
+  border: #282828 1px solid;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.tokenData-item{
+  /* border: #007bff solid 1px; */
+  width: 100%;
+  display: flex;
+  margin: 0.5rem 0;
+}
+
+.tokenData-title{
+  width: 20%;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.tokenData-value{
+  width: 80%;
+}
+
+.logo{
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.token-title{
+  font-weight: 500;
+  text-transform: capitalize;
+}

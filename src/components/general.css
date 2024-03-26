@@ -1,0 +1,82 @@
+#alert-dialog-title{
+    font-weight: bold;
+}
+
+.token-details-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.token-details-dialog-content {
+    margin: 0;
+}
+
+.token-details-item{
+    display: flex;
+    width: 100%;
+}
+
+.token-details-title{
+    width: 50%;
+}
+.token-details-title-prompt{
+    width: 25%;
+}
+
+.token-id {
+    width: 50%;
+    color: #333; 
+    text-transform: capitalize;
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.token-id-prompt {
+    width: 75%;
+    color: #333; 
+    border-radius: 5px;
+    min-height: 60px;
+    padding-left: 5px;
+    outline: none;
+}
+
+.dialog-subTitle{
+    align-self: center;
+    width: 92%;
+}
+
+
+/* ------------------------------- TABLE TO SHOW ALL TOKENS --------------------------------------------- */
+
+
+.table-main{
+    margin: 0 0 2rem 0;
+    width: 98%;
+}
+
+.table-title{
+    margin: 0 0 0.8rem 0;
+}
+
+/* ------------------------------- NAVBAR --------------------------------------------- */
+
+
+.navbar{
+    display: flex;
+    margin: 0 0 1rem 0;
+    justify-content: space-around;
+    border: #333 solid 1px;
+    padding: 1rem 0;
+    width: 100%;
+    color: #fff;
+    align-items: center;
+    background-color: #333;
+}
+
+.page-name{
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
