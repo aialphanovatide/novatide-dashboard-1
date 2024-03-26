@@ -239,24 +239,29 @@ export default function AllTokens({ updateList }) {
                     if (key !== "success" && key !== 'id') {
                       return (
                         <TableCell
-                          sx={{
-                            color: '#282828',
-                            textAlign: 'center',
-                            verticalAlign: 'center',
-                          }}
-                          key={key}
-                          align="right"
-                        >
-                          {typeof item[key] === 'string' && item[key].startsWith('https://assets.') ? (
-                            <img src={item[key]} alt={`Logo for ${key}`} style={{ maxWidth: '100px' }} />
-                          ) : typeof item[key] === 'string' && item[key].startsWith('http') ? (
-                            <a href={item[key]} target="_blank" rel="noopener noreferrer">
-                              {item[key]}
-                            </a>
-                          ) : (
-                            typeof item[key] === 'number' ? `${formatNumber(item[key])}` : item[key]
-                          )}
-                        </TableCell>
+                        sx={{
+                          // color: '#282828',
+                          color: item[key] === null ? 'red' : '#282828',
+                          textAlign: 'center',
+                          verticalAlign: 'center',
+                          fontWeight: 550
+                        }}
+                        key={key}
+                        align="right"
+                      >
+                        {item[key] === null || item[key] === '' ? (
+                          "N/A"
+                        ) : typeof item[key] === 'string' && item[key].startsWith('https://assets.') ? (
+                          <img src={item[key]} alt={`Logo for ${key}`} style={{ maxWidth: '100px' }} />
+                        ) : typeof item[key] === 'string' && item[key].startsWith('http') ? (
+                          <a href={item[key]} target="_blank" rel="noopener noreferrer">
+                            {item[key]}
+                          </a>
+                        ) : (
+                          typeof item[key] === 'number' ? `${formatNumber(item[key])}` : item[key]
+                        )}
+                      </TableCell>
+                      
                       );
                     }
                   })}
