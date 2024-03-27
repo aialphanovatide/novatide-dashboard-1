@@ -20,7 +20,6 @@ export default function TokenDetailsDialog({ open, handleClose, tokenResponse, t
         setPrompt(event.target.value);
       };
 
-    console.log(prompt)
 
     // Get all available information about a token.
     const handleSubmit = (token, prompt) => {

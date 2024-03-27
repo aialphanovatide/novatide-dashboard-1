@@ -22,6 +22,16 @@ footer{
   background-color: #f8f9fa;
 }
 
+.create-watchlist-container{
+ width: 98%;
+ display: flex;
+ justify-content: flex-end;
+}
+
+.create-watchlist-btn{
+  width: 20%;
+}
+
 .subContainer{
   width: 100%;
   display: flex;
@@ -48,6 +58,7 @@ h1{
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   width: 50%;
   /* border: #007bff solid 1px; */
 }
@@ -93,6 +104,38 @@ button:disabled {
   width: 99%;
   border: #282828 solid 1px;
 }
+
+.watchlist-select {
+  border: 1px solid #ccc; /* Add a subtle border for better distinction */
+  width: 80%;
+  margin-left: 1rem;
+  border-radius: 5px;
+  padding: 12px; /* Reduce padding slightly for a cleaner look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adjust box shadow for a softer effect */
+  font-size: 1rem; /* Increase font size for better readability */
+  outline: none;
+  background-color: #fff; /* Ensure a white background for better contrast */
+
+}
+
+.watchlist-select option {
+  color: #333; /* Darken option text color for better visibility */
+  padding: 10px 15px; /* Adjust padding for better spacing */
+}
+
+/* Hover and Focus States */
+.watchlist-select:hover,
+.watchlist-select:focus {
+  border-color: #aaa; /* Darken border on hover and focus for better feedback */
+}
+
+/* Selected Option */
+.watchlist-select option:checked {
+  background-color: #f0f0f0; /* Light gray background for selected option */
+}
+
+
+
 
 /* ------------------------------------- TOKEN DETAILS -------------------------------- */
 

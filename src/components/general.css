@@ -60,6 +60,14 @@
     margin: 0 0 0.8rem 0;
 }
 
+.toolbar-container{
+    /* border: #333 solid 2px; */
+    justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* ------------------------------- NAVBAR --------------------------------------------- */
 
 
@@ -78,5 +86,7 @@
 .page-name{
     text-transform: capitalize;
     font-weight: bold;
+    font-size: 1.2rem;
+
 }
 

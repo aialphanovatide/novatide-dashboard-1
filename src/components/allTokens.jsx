@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -34,12 +35,23 @@ function formatNumber(number) {
   }
 }
 
-export default function AllTokens({ updateList }) {
+export default function AllTokens({ updateList, updateWatchlist }) {
   const [data, setData] = useState([]);
+  const [tokens, setTokens] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('symbol');
   const [selected, setSelected] = useState([]);
   const [updateToken, setUpdateToken] = useState(false);
+  const [selectedWatchlist, setSelectedWatchlist] = useState('');
+
+  console.log('selected: ', selected)
+
+  const handleSelectedWachlist = (event) => {
+    setSelectedWatchlist(event.target.value);
+  };
+
+  // Filters the token according to the selected watchlist
+  const tokensList = (data && data.filter(p => p.name == selectedWatchlist)[0]?.tokens) || [];
 
   // Deletes token selected
   const handleDelete = async (idsToDelete) => {
@@ -77,7 +89,7 @@ export default function AllTokens({ updateList }) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = data.map((n) => n.id);
+      const newSelected = tokensList.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -108,15 +120,16 @@ export default function AllTokens({ updateList }) {
 
   // Gets all the tokens data
   useEffect(() => {
-    const apiUrl = `${BASE_URL}/get/tokens`;
+    const apiUrl = `${BASE_URL}/watchlists`;
 
     fetch(apiUrl)
       .then(response => response.json())
       .then(data => {
-        setData(data.response);
+        setData(data.watchlists);
+        setSelectedWatchlist(data.watchlists[0].name)
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, [updateToken, updateList]);
+  }, [updateToken, updateList, updateWatchlist]);
 
   function organizeProps(array) {
     const organizedArray = array.map(obj => {
@@ -126,8 +139,8 @@ export default function AllTokens({ updateList }) {
     return organizedArray;
 }
 
-  const organizedTokens = data && organizeProps(data)
-  console.log(organizedTokens)
+  const organizedTokens = tokensList && organizeProps(tokensList)
+
 
   // Sort the data based on orderBy and order
   const sortedData = organizedTokens && organizedTokens?.slice().sort((a, b) => {
@@ -141,7 +154,7 @@ export default function AllTokens({ updateList }) {
   // Organize the order to display the column titles
   const idLogoGeckoId = ["logo", "symbol", "gecko_id"];
   const dates = ["created_at", "updated_at"];
-  const columnTitle = data.length > 0 && Object.keys(data[0]);
+  const columnTitle = tokensList.length > 0 && Object.keys(tokensList[0]);
 
   // Exclude items from idLogoGeckoId and dates
   const filteredColumnTitles = columnTitle && columnTitle.filter(key => !idLogoGeckoId.includes(key) && !dates.includes(key));
@@ -157,31 +170,57 @@ export default function AllTokens({ updateList }) {
     }
   }
 
+  const description = (data && data.filter(p => p.name == selectedWatchlist)[0]?.description) || "";
+
   return (
     <div className='table-main'>
       <h2 className='table-title'>Watchlist</h2>
       <Paper>
-        <Toolbar>
-          <Typography variant="h6" id="tableTitle" component="div">
-            {selected.length > 0 ? `${selected.length} Selected` : 'Watchlist'}
+        <Toolbar className='toolbar-container'>
+        <div className='toolbar-container'>
+          <FormControl variant="standard" sx={{ m:2, width: 200 }}>
+        <Select
+          labelId="demo-simple-select-filled-label"
+          id="demo-simple-select-filled"
+          value={selectedWatchlist && selectedWatchlist}
+          onChange={handleSelectedWachlist}
+          label="Watchlist"
+          style={{textTransform: 'capitalize'}}
+        >
+          <MenuItem value="">
+            <em>Select a watchlist</em>
+          </MenuItem>
+          {data && data?.map(item => {
+                return (
+                  <MenuItem style={{textTransform: 'capitalize'}} key={item.id} value={item.name}>{item.name}</MenuItem>
+                )
+              })}
+        </Select>
+        </FormControl>
+        <p style={{textTransform: 'capitalize'}}>{description && description}</p>
+        </div>
+        <div className='toolbar-container'>
+        <Typography variant="h7" id="tableTitle" component="div">
+            {selected.length > 0 && `${selected.length} Selected`}
           </Typography>
-          <Tooltip title={selected.length > 0 ? 'Delete' : 'Filter list'}>
+          <Tooltip title='Delete'>
             <IconButton onClick={submitDelete}>
-              {selected.length > 0 ? <DeleteIcon /> : <FilterListIcon />}
+              {selected.length > 0 && <DeleteIcon />}
             </IconButton>
           </Tooltip>
+        </div>
         </Toolbar>
         <TableContainer>
           <Table>
-            <caption>Here you can see all the tokens in the watchlist</caption>
+            <caption>Here you can see an overview of the token's data</caption>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ backgroundColor: '#023e7d' }} padding="checkbox">
                   <Checkbox
                     color="primary"
                     style={{ color: '#fff' }}
-                    indeterminate={selected.length > 0 && selected.length < data.length}
-                    checked={data.length > 0 && selected.length === data.length}
+                    indeterminate={selected.length > 0 && selected.length < tokensList.length}
+                    // checked={data.length > 0 && selected.length === data.length}
                     onChange={handleSelectAllClick}
                     inputProps={{
                       'aria-label': 'select all desserts',
@@ -240,11 +279,9 @@ export default function AllTokens({ updateList }) {
                       return (
                         <TableCell
                         sx={{
-                          // color: '#282828',
                           color: item[key] === null ? 'red' : '#282828',
                           textAlign: 'center',
                           verticalAlign: 'center',
-                          fontWeight: 550
                         }}
                         key={key}
                         align="right"
