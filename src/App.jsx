@@ -151,11 +151,12 @@ function App() {
         </div>
 
 
-        <h2>Search token</h2>
+        <h2 style={{color: '#282828'}}>Search token</h2>
         <div className="input-group">
           <label htmlFor="input1">Token Name:</label>
           <input
             id="input1"
+            style={{backgroundColor: '#fff'}}
             type="text"
             placeholder="Enter token name"
             value={input1}
@@ -169,6 +170,7 @@ function App() {
           <input
             id="input2"
             type="text"
+            style={{backgroundColor: '#fff'}}
             placeholder="Enter token symbol"
             value={input2}
             onChange={handleInput2Change}
