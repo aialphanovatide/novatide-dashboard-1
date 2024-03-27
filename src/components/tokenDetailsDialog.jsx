@@ -11,7 +11,7 @@ import './general.css'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 
-export default function TokenDetailsDialog({ open, handleClose, tokenResponse, tokenName, onResponseReceived }) {
+export default function TokenDetailsDialog({ open, handleClose, tokenResponse, tokenName, onResponseReceived, setUpdateList }) {
 
     const [loading, setLoading] = React.useState(false);
     const [prompt, setPrompt] = React.useState('');
@@ -58,6 +58,7 @@ export default function TokenDetailsDialog({ open, handleClose, tokenResponse, t
       })
       .finally(() => {
         setLoading(false); // Set loading state back to false when data fetching is complete
+        setUpdateList(prevState => !prevState);
     });
     };
 

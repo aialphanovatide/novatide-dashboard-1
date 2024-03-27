@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { Button, FormControl, InputLabel } from '@mui/material';
 import CreateWatchlist from './components/createWatchlistDialog';
+import SideMenu from './components/sideDrawer';
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -43,12 +44,15 @@ function App() {
   const [tokenData, setTokenData] = useState(null);
   const [openCreateWatchlist, setOpenCreateWatchlist] = useState(false);
   const [updateWatchlist, setUpdateWatchlist] = useState(false);
- 
+  const [openMenu, setOpenMenu] = useState(false);
 
   const handleClickOpenCreateWatchlistDialog = () => {
     setOpenCreateWatchlist(!openCreateWatchlist);
   };
 
+  const toggleMenu = (newOpen) => () => {
+    setOpenMenu(newOpen);
+  };
 
   const handleResponseReceived = (data) => {
     setTokenData(data);
@@ -135,7 +139,8 @@ function App() {
     <div className="container">
       <div className='subContainer'>
 
-        <Navbar />
+        <Navbar toggleMenu={toggleMenu}/>
+        <SideMenu toggleDrawer={toggleMenu} open={openMenu}/>
 
         <div className='create-watchlist-container'>
           <Button
@@ -201,6 +206,7 @@ function App() {
           handleClose={handleClose}
           tokenResponse={tokenResponse}
           onResponseReceived={handleResponseReceived}
+          setUpdateList={setUpdateList}
         />}
 
         {/* ------------------------TOKEN DATA----------------------------------------------------------- */}

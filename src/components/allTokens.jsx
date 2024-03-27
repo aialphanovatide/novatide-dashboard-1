@@ -44,8 +44,6 @@ export default function AllTokens({ updateList, updateWatchlist }) {
   const [updateToken, setUpdateToken] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState('');
 
-  console.log('selected: ', selected)
-
   const handleSelectedWachlist = (event) => {
     setSelectedWatchlist(event.target.value);
   };
@@ -282,7 +280,16 @@ export default function AllTokens({ updateList, updateWatchlist }) {
                           color: item[key] === null ? 'red' : '#282828',
                           textAlign: 'center',
                           verticalAlign: 'center',
-                        }}
+                          textOverflow: 'ellipsis',
+                          
+                          minWidth: typeof item[key] === 'string' && item[key].length > 200 ? (
+                            800
+                          ) : typeof item[key] === 'string' && item[key].startsWith('https') ? (
+                            40
+                          ) : (
+                            80
+                          )}
+                        }
                         key={key}
                         align="right"
                       >
@@ -311,3 +318,6 @@ export default function AllTokens({ updateList, updateWatchlist }) {
     </div>
   );
 }
+
+
+// minWidth: typeof item[key] === 'string' && item[key].length > 100 ? 800 : 100,
