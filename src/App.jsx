@@ -156,7 +156,7 @@ function App() {
           <label htmlFor="input1">Token Name:</label>
           <input
             id="input1"
-            style={{backgroundColor: '#fff'}}
+            style={{backgroundColor: '#fff', color: '#282828'}}
             type="text"
             placeholder="Enter token name"
             value={input1}
@@ -170,7 +170,7 @@ function App() {
           <input
             id="input2"
             type="text"
-            style={{backgroundColor: '#fff'}}
+            style={{backgroundColor: '#fff', color: '#282828'}}
             placeholder="Enter token symbol"
             value={input2}
             onChange={handleInput2Change}

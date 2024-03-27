@@ -106,7 +106,7 @@ export default function TokenDetailsDialog({ open, handleClose, tokenResponse, t
                     </div>}
                     <div className='token-details-item'>
                         <label className='token-details-title-prompt' htmlFor="prompt">Prompt:</label>
-                        <textarea onChange={handlePrompt} className="token-id-prompt" name="prompt" id="prompt"></textarea>
+                        <textarea style={{backgroundColor: '#fff'}} onChange={handlePrompt} className="token-id-prompt" name="prompt" id="prompt"></textarea>
                     </div>
                 </DialogContent> :
                 <DialogContent className='token-details-dialog-content'>
