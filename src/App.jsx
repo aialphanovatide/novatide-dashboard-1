@@ -1,157 +1,186 @@
-import './App.css';
-import React, { useState, useEffect } from 'react';
-import TokenDetailsDialog from './components/tokenDetailsDialog';
-import Swal from 'sweetalert2'
-import AllTokens from './components/allTokens';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar';
-import axios from 'axios';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { Button, FormControl, InputLabel } from '@mui/material';
-import CreateWatchlist from './components/createWatchlistDialog';
 import SideMenu from './components/sideDrawer';
-
-const BASE_URL = import.meta.env.VITE_API_URL
-
-
-function formatNumber(number) {
-  // Check if the number is an integer or decimal
-  if (Number.isInteger(number)) {
-    // Format integer numbers with thousands separators
-    return number.toLocaleString();
-  } else {
-    // Split the number into integer and decimal parts
-    let parts = number.toLocaleString().split('.');
-    // Format integer part with thousands separators
-    parts[0] = parts[0].replace(/,/g, '');
-    parts[0] = parseInt(parts[0]).toLocaleString();
-    // Join the integer and decimal parts and return
-    return parts.join('.');
-  }
-}
-
+import Home from './home';
+import Bots from './components/bots/bots';
+import Boards from './components/bots/boards';
 
 function App() {
-
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [open, setOpen] = React.useState(false);
-  const [selectedWatchlist, setSelectedWatchlist] = useState('');
-  const [buttonDisabled, setButtonDisabled] = useState(true);
-  const [tokenResponse, setTokenResponse] = useState(null); // State to hold token response
-  const [updateList, setUpdateList] = useState(false); // State to update the list of token
-  const [watchlist, setWatchlist] = useState([]);
-  const [tokenData, setTokenData] = useState(null);
-  const [openCreateWatchlist, setOpenCreateWatchlist] = useState(false);
-  const [updateWatchlist, setUpdateWatchlist] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
-
-  const handleClickOpenCreateWatchlistDialog = () => {
-    setOpenCreateWatchlist(!openCreateWatchlist);
-  };
 
   const toggleMenu = (newOpen) => () => {
     setOpenMenu(newOpen);
   };
 
-  const handleResponseReceived = (data) => {
-    setTokenData(data);
-  };
-
-  // Function to fetch watchlist data
-  const fetchWatchlistData = async () => {
-    try {
-      const apiUrl = `${BASE_URL}/watchlists/nontokens`;
-      const response = await axios.get(apiUrl);
-
-      if (response.status === 200) {
-        setWatchlist(response.data.watchlists);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchWatchlistData();
-  }, [updateWatchlist]);
-
-
-  const handleInput1Change = (event) => {
-    setInput1(event.target.value);
-    setButtonDisabled(event.target.value === '');
-  };
-
-  const handleInput2Change = (event) => {
-    setInput2(event.target.value);
-  };
-
-  const handleSelectedWachlist = (event) => {
-    setSelectedWatchlist(event.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // Get details about a Token
-  const handleSubmit = () => {
-    setTokenResponse(null)
-    fetch(`${BASE_URL}/search/token`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token_name: input1,
-        token_symbol: input2,
-        watchlist: selectedWatchlist
-      })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setTokenResponse(data)
-          setOpen(true)
-          setUpdateList(prevState => !prevState);
-        } else if (data.response == "Token not found") {
-          setTokenResponse(data.response)
-          setOpen(true)
-        } else {
-          Swal.fire({
-            title: "Something went wrong",
-            text: data.response,
-            icon: "error"
-          });
-        }
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: "Something went wrong",
-          text: error,
-          icon: "error"
-        });
-      });
-  };
-
-
   return (
-    <div className="container">
-      <div className='subContainer'>
+    <Router>
+      <Navbar toggleMenu={toggleMenu} />
+      <SideMenu toggleDrawer={toggleMenu} open={openMenu} />
+      <Routes>
+        <Route path="/" exact element={<Home/>} />
+        <Route path="/bots" element={<Bots/>} />
+        <Route path="/bots/:botName" element={<Boards/>} />
+      </Routes>
+    </Router>
+  );
+}
 
-        <Navbar toggleMenu={toggleMenu}/>
-        <SideMenu toggleDrawer={toggleMenu} open={openMenu}/>
+export default App;
 
-        <div className='create-watchlist-container'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import TokenDetailsDialog from './components/tokenDetailsDialog';
+// import Swal from 'sweetalert2'
+// import AllTokens from './components/allTokens';
+// import axios from 'axios';
+// import MenuItem from '@mui/material/MenuItem';
+// import Select from '@mui/material/Select';
+// import { Button, FormControl, InputLabel } from '@mui/material';
+// import CreateWatchlist from './components/createWatchlistDialog';
+
+
+// const [updateWatchlist, setUpdateWatchlist] = useState(false);
+// const [openCreateWatchlist, setOpenCreateWatchlist] = useState(false);
+
+// const handleClickOpenCreateWatchlistDialog = () => {
+//   setOpenCreateWatchlist(!openCreateWatchlist);
+// };
+
+
+// const BASE_URL = import.meta.env.VITE_API_URL
+
+
+// function formatNumber(number) {
+//   // Check if the number is an integer or decimal
+//   if (Number.isInteger(number)) {
+//     // Format integer numbers with thousands separators
+//     return number.toLocaleString();
+//   } else {
+//     // Split the number into integer and decimal parts
+//     let parts = number.toLocaleString().split('.');
+//     // Format integer part with thousands separators
+//     parts[0] = parts[0].replace(/,/g, '');
+//     parts[0] = parseInt(parts[0]).toLocaleString();
+//     // Join the integer and decimal parts and return
+//     return parts.join('.');
+//   }
+// }
+
+
+// const [input1, setInput1] = useState('');
+// const [input2, setInput2] = useState('');
+// const [open, setOpen] = React.useState(false);
+// const [selectedWatchlist, setSelectedWatchlist] = useState('');
+// const [buttonDisabled, setButtonDisabled] = useState(true);
+// const [tokenResponse, setTokenResponse] = useState(null); // State to hold token response
+// const [updateList, setUpdateList] = useState(false); // State to update the list of token
+// const [watchlist, setWatchlist] = useState([]);
+// const [tokenData, setTokenData] = useState(null);
+
+
+// const handleResponseReceived = (data) => {
+//   setTokenData(data);
+// };
+
+// // Function to fetch watchlist data
+// const fetchWatchlistData = async () => {
+//   try {
+//     const apiUrl = `${BASE_URL}/watchlists/nontokens`;
+//     const response = await axios.get(apiUrl);
+
+//     if (response.status === 200) {
+//       setWatchlist(response.data.watchlists);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching data:', error);
+//   }
+// };
+
+// useEffect(() => {
+//   fetchWatchlistData();
+// }, [updateWatchlist]);
+
+
+// const handleInput1Change = (event) => {
+//   setInput1(event.target.value);
+//   setButtonDisabled(event.target.value === '');
+// };
+
+// const handleInput2Change = (event) => {
+//   setInput2(event.target.value);
+// };
+
+// const handleSelectedWachlist = (event) => {
+//   setSelectedWatchlist(event.target.value);
+// };
+
+// const handleClose = () => {
+//   setOpen(false);
+// };
+
+// // Get details about a Token
+// const handleSubmit = () => {
+//   setTokenResponse(null)
+//   fetch(`${BASE_URL}/search/token`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       token_name: input1,
+//       token_symbol: input2,
+//       watchlist: selectedWatchlist
+//     })
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       if (data.success) {
+//         setTokenResponse(data)
+//         setOpen(true)
+//         setUpdateList(prevState => !prevState);
+//       } else if (data.response == "Token not found") {
+//         setTokenResponse(data.response)
+//         setOpen(true)
+//       } else {
+//         Swal.fire({
+//           title: "Something went wrong",
+//           text: data.response,
+//           icon: "error"
+//         });
+//       }
+//     })
+//     .catch((error) => {
+//       Swal.fire({
+//         title: "Something went wrong",
+//         text: error,
+//         icon: "error"
+//       });
+//     });
+// };
+
+
+{/* <div className='create-watchlist-container'>
           <Button
             className='create-watchlist-btn'
             onClick={handleClickOpenCreateWatchlistDialog}
             variant="outlined">create watchlist</Button>
           <CreateWatchlist setUpdateWatchlist={setUpdateWatchlist} open={openCreateWatchlist} handleClick={handleClickOpenCreateWatchlistDialog} />
-        </div>
+        </div> */}
 
 
-        <h2 style={{color: '#282828'}}>Search token</h2>
+{/* <h2 style={{color: '#282828'}}>Search token</h2>
         <div className="input-group">
           <label htmlFor="input1">Token Name:</label>
           <input
@@ -209,9 +238,9 @@ function App() {
           tokenResponse={tokenResponse}
           onResponseReceived={handleResponseReceived}
           setUpdateList={setUpdateList}
-        />}
+        />} */}
 
-        {/* ------------------------TOKEN DATA----------------------------------------------------------- */}
+{/* ------------------------TOKEN DATA-----------------------------------------------------------
 
         {tokenData && <div className='tokenData-main-container'>
 
@@ -388,11 +417,4 @@ function App() {
         </div>}
 
 
-        <AllTokens updateWatchlist={updateWatchlist} updateList={updateList} />
-
-      </div>
-    </div>
-  );
-}
-
-export default App;
+        <AllTokens updateWatchlist={updateWatchlist} updateList={updateList} /> */}

@@ -7,11 +7,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 const Navbar = ({toggleMenu}) => {
     return (
         <nav className="navbar">
-            <div onClick={toggleMenu(true)} className="icon">
-                <MenuIcon />
+            <div className="navbar-subcontainer-1">
+                <div className='menu-icon' onClick={toggleMenu(true)}>
+                    <MenuIcon />
+                </div>
+                <div className="page-name">novatide labs</div>
             </div>
-            <div className="page-name">novatide labs</div>
-            <div className="icon">
+            <div className="navbar-subcontainer-2">
                 <NotificationsNoneIcon/>
             </div>
         </nav>
