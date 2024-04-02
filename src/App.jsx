@@ -5,6 +5,7 @@ import SideMenu from './components/sideDrawer';
 import Home from './home';
 import Bots from './components/bots/bots';
 import Boards from './components/bots/boards';
+import Node from './components/nodes/node';
 
 function App() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -19,8 +20,9 @@ function App() {
       <SideMenu toggleDrawer={toggleMenu} open={openMenu} />
       <Routes>
         <Route path="/" exact element={<Home/>} />
-        <Route path="/bots" element={<Bots/>} />
-        <Route path="/bots/:botName" element={<Boards/>} />
+        <Route path="/bots" exact element={<Bots/>} />
+        <Route path="/nodes" exact element={<Node/>} />
+        <Route path="/bots/:botName" exact element={<Boards/>} />
       </Routes>
     </Router>
   );

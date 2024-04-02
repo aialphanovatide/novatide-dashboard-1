@@ -259,3 +259,35 @@
     color: #666;
   }
   
+
+  /* -------------------------------------- NODE STYLES ---------------------------------------------*/
+
+  .node-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nodes-title{
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+
+  .node-subcontainer{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .node-item{
+    width: 250px;
+    min-height: 100px;
+    margin: 1rem;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: green;
+    justify-content: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
