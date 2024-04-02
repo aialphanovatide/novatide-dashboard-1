@@ -10,6 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { Outlet, Link } from "react-router-dom";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TokenIcon from '@mui/icons-material/Token';
+import ViewInArIcon from '@mui/icons-material/ViewInAr';
 
 export default function SideMenu({toggleDrawer, open}) {
 
@@ -18,13 +19,14 @@ export default function SideMenu({toggleDrawer, open}) {
       <List>
         {[
           { text: 'Home', path: '/' }, 
-          { text: 'Bots', path: '/bots' }
+          { text: 'Bots', path: '/bots' },
+          { text: 'Nodes', path: '/nodes' }
         ].map((item, index) => (
           <Link key={item.text} to={item.path} style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <DashboardIcon /> : <TokenIcon />}
+                  {item.text === 'Nodes' ? <ViewInArIcon /> : (index % 2 === 0 ? <DashboardIcon /> : <TokenIcon />)}
                 </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

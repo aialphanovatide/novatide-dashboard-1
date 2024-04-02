@@ -41,11 +41,11 @@ const Boards = () => {
                 ) : (
                     <div className="boards">
                         {boards.map((item, index) => (
-                            <div key={index} className="board-item">
+                            <a href={`https://novatidelabs-company.monday.com/boards/${item.monday_board_id}`} key={index} className="board-item">
                                 <p className="board-name">{item.board_name}</p>
                                 <p className="board-id">{item.monday_board_id}</p>
                                 <p className="created-at">{item.created_at.substring(0, 16)}</p>
-                            </div>
+                            </a>
                         ))}
                     </div>
                 )}
