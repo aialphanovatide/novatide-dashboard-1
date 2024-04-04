@@ -1,41 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Novatide Labs</title>
     <style>
-      footer {
-        background-color: #333;
-        color: #fff;
-        padding: 16px;
-        clear: both;
-        border: 1px solid gray;
-        text-align: center;
-        width: 100%;
-        position: relative;
-      }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
 
-      .version-tag{
-        position: absolute;
-        bottom: 5px;
-        right: 10px;
-        color: #fff;
-        font-size: 0.8rem;
-      }
+        .version-tag {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            .version-tag {
+                position: static;
+                margin-top: 10px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-  <footer>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.jsx"></script>
+
+<footer>
     <p>Powered By Novatide Labs &copy; <span id="currentYear"></span></p>
     <p class="version-tag">Version 1.0.1</p>
-  </footer>
-  <script>
+</footer>
+<script>
     const currentYear = new Date().getFullYear();
     document.getElementById('currentYear').innerText = currentYear;
-  </script>
+</script>
+</body>
 </html>

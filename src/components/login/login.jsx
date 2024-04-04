@@ -69,7 +69,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-          <Typography fontWeight={500} marginTop='10rem' variant="h4" align="center" gutterBottom>
+          <Typography className='login-title' fontWeight={500} marginTop='10rem' variant="h5" align="center" gutterBottom>
             Login to Novatide Labs
           </Typography>
           <form className="login-form" onSubmit={handleSubmit}>

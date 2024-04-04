@@ -296,3 +296,28 @@
     width: 40%;
   }
   
+
+@media screen and (max-width: 768px) {
+  .login-form {
+      width: 70%; 
+  }
+
+  .navbar-subcontainer-1{
+    width: 85%;
+  }
+  .navbar-subcontainer-2{
+    width: 15%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .login-form {
+      width: 80%; 
+  }
+  .navbar-subcontainer-1{
+    width: 70%;
+  }
+  .navbar-subcontainer-2{
+    width: 30%;
+  }
+}
