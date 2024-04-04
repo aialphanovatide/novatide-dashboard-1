@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import TokenDetailsDialog from './components/tokenDetailsDialog';
 import Swal from 'sweetalert2'
-import AllTokens from './components/allTokens';
+import AllTokens from './components/allTokensTable/allTokens';
 import axios from 'axios';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -31,6 +31,7 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 
 export default function Home() {
+
     const [input1, setInput1] = useState('');
     const [input2, setInput2] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -42,16 +43,12 @@ export default function Home() {
     const [tokenData, setTokenData] = useState(null);
     const [openCreateWatchlist, setOpenCreateWatchlist] = useState(false);
     const [updateWatchlist, setUpdateWatchlist] = useState(false);
-    const [openMenu, setOpenMenu] = useState(false);
 
     const handleClickOpenCreateWatchlistDialog = () => {
         setOpenCreateWatchlist(!openCreateWatchlist);
     };
 
-    const toggleMenu = (newOpen) => () => {
-        setOpenMenu(newOpen);
-    };
-
+   
     const handleResponseReceived = (data) => {
         setTokenData(data);
     };
@@ -131,6 +128,7 @@ export default function Home() {
                 });
             });
     };
+
     return (
         <div className='subContainer'>
             <div className='create-watchlist-container'>
@@ -199,6 +197,7 @@ export default function Home() {
                 onResponseReceived={handleResponseReceived}
                 setUpdateList={setUpdateList}
             />}
+            
             {/* ------------------------TOKEN DATA----------------------------------------------------------- */}
 
             {tokenData && <div className='tokenData-main-container'>

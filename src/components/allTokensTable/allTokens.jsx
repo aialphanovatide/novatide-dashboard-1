@@ -15,7 +15,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import createDocument from './download';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -36,8 +37,8 @@ function formatNumber(number) {
 }
 
 export default function AllTokens({ updateList, updateWatchlist }) {
+
   const [data, setData] = useState([]);
-  const [tokens, setTokens] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('symbol');
   const [selected, setSelected] = useState([]);
@@ -170,6 +171,13 @@ export default function AllTokens({ updateList, updateWatchlist }) {
 
   const description = (data && data.filter(p => p.name == selectedWatchlist)[0]?.description) || "";
 
+  // Asynchronous function to handle download button click
+  const handleDownloadButtonClick = async (event, item) => {
+    event.stopPropagation();
+    await createDocument(item); // Wait for the document creation process to complete
+  };
+
+
   return (
     <div className='table-main'>
       <h2 className='table-title'>Watchlist</h2>
@@ -213,7 +221,10 @@ export default function AllTokens({ updateList, updateWatchlist }) {
             <caption>Here you can see an overview of the token's data</caption>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ backgroundColor: '#023e7d' }} padding="checkbox">
+                <TableCell sx={{ backgroundColor: '#023e7d', textAlign: 'center', minWidth: 160, verticalAlign: 'center', textTransform: 'capitalize' }}>
+                  <Typography variant="body1" style={{ color: '#fff' }}>Download</Typography>
+                </TableCell>
+                <TableCell className='table-cell-header' sx={{ backgroundColor: '#023e7d' }} padding="checkbox">
                   <Checkbox
                     color="primary"
                     style={{ color: '#fff' }}
@@ -225,7 +236,6 @@ export default function AllTokens({ updateList, updateWatchlist }) {
                     }}
                   />
                 </TableCell>
-                {/* {data.length > 0 && Object.keys(data[0]).map(key => { */}
                 {organizedColumnTitles.length > 0 && organizedColumnTitles?.map(key => {
                   if (key !== 'success' && key !== 'id') {
                     return (
@@ -265,6 +275,15 @@ export default function AllTokens({ updateList, updateWatchlist }) {
                   key={item.id}
                   selected={isSelected(item.id)}
                 >
+                  <TableCell>
+                    <Button
+                      sx={{maxWidth: '80%', }}
+                      variant="contained"
+                      onClick={(event) => handleDownloadButtonClick(event, item)}
+                    >
+                      download data
+                    </Button>
+                  </TableCell>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
@@ -305,7 +324,6 @@ export default function AllTokens({ updateList, updateWatchlist }) {
                           typeof item[key] === 'number' ? `${formatNumber(item[key])}` : item[key]
                         )}
                       </TableCell>
-                      
                       );
                     }
                   })}
