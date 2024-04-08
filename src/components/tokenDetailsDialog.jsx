@@ -7,6 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
 import DialogContentText from '@mui/material/DialogContentText';
 import './general.css'
+import Swal from 'sweetalert2';
 
 const BASE_URL = import.meta.env.VITE_API_URL
 

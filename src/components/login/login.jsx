@@ -47,21 +47,24 @@ const Login = () => {
           password: formData.password
         });
 
+      
         if (response.data.user.is_authenticated){
             dispatch(signIn(response.data.user));
+        }
+      } catch (error) {
+        if (error.response.data.error){
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text:  error.response.data.error
+          });
         } else {
           Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: response.data.error
+            text:  error.message
           });
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text:  error.message
-        });
       }
     }
   };

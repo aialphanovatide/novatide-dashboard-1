@@ -36,9 +36,12 @@ const Navbar = ({ toggleMenu }) => {
         
         try {
         // Perform logout action
-        const response = await axios.post(`${BASE_URL}/logout`, {
-            username: currentUser.username,
-        });
+        const response = await axios.post(
+            `${BASE_URL}/logout`,
+            {
+              username: currentUser.username,
+            }
+          );
 
         if ( response.status === 200 ){
             dispatch(signOut());

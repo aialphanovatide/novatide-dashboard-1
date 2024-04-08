@@ -295,7 +295,39 @@
     margin-top: 16px;
     width: 40%;
   }
-  
+
+
+/* -----------------------------------   CREATE USER STYLES ------------------------------------------------------------ */
+
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  /* border: #282828 solid 1px; */
+  padding: 2rem 0;
+}
+
+.create-user-title{
+  text-transform: capitalize;
+  margin-bottom: 2rem;
+}
+
+.snackbar {
+  margin-top: 20px;
+}
+
+.show-all-users{
+  width: 95%;
+  margin: auto;
+}
+
+.table-row:hover{
+  background-color: #f9f9f9;
+}
 
 @media screen and (max-width: 768px) {
   .login-form {
