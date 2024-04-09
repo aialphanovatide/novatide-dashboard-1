@@ -23,9 +23,9 @@ export default function SideMenu({ toggleDrawer, open }) {
     { text: 'Home', path: '/', icon: <DashboardIcon /> },
     { text: 'Bots', path: '/bots', icon: <TokenIcon /> },
     { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> }, 
-    ...(currentUser.role === 'admin' && [{ text: 'Users', path: '/users', icon: <GroupIcon /> }])
+    ...(currentUser.role === 'admin' ? [{ text: 'Users', path: '/users', icon: <GroupIcon /> }] : [])
   ];
-
+  
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List style={{padding: 0}}>
