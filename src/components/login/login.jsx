@@ -1,10 +1,12 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, IconButton, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import '../general.css'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { signIn } from '../../redux/slices/appSlice';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -20,9 +22,14 @@ const Login = () => {
     username: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSubmit = async (e) => {
@@ -92,13 +99,23 @@ const Login = () => {
               label="Password"
               variant="outlined"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={formData.password}
               onChange={handleChange}
               className="text-field"
               error={!!errors.password}
               helperText={errors.password}
               sx={{marginBottom: '1rem', width: '100%', backgroundColor: '#fff'}}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    onClick={handleTogglePasswordVisibility}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                ),
+              }}
             />
             <Button
               variant="contained"
