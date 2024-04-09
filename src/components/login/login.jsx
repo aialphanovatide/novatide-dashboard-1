@@ -54,7 +54,6 @@ const Login = () => {
           password: formData.password
         });
 
-      
         if (response.data.user.is_authenticated){
             dispatch(signIn(response.data.user));
         }
