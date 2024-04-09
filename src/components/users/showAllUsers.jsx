@@ -15,6 +15,8 @@ const UsersTable = ({ updateUserTable }) => {
     const currentUser = useSelector(state => state.user);
     const [showPassword, setShowPassword] = useState(false);
 
+    console.log(users)
+
     const handleToggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -96,6 +98,7 @@ const UsersTable = ({ updateUserTable }) => {
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Username</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Email</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Role</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Status</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Created At</TableCell>
                             <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>Actions</TableCell>
                         </TableRow>
@@ -106,6 +109,7 @@ const UsersTable = ({ updateUserTable }) => {
                                 <TableCell sx={{ textAlign: 'center' }}>{user.username}</TableCell>
                                 <TableCell sx={{ textAlign: 'center' }}>{user.email}</TableCell>
                                 <TableCell sx={{ textAlign: 'center' }}>{user.role}</TableCell>
+                                <TableCell sx={{ textAlign: 'center' }}>{user.is_active ? 'Active': 'Inactive'}</TableCell>
                                 <TableCell sx={{ textAlign: 'center' }}>{new Date(user.created_at).toLocaleString()}</TableCell>
                                 <TableCell sx={{ textAlign: 'center' }}>
                                     <Button sx={{ margin: '5px' }} variant="outlined" color="secondary" onClick={() => handleDeleteUser(user.id)}>Delete</Button>
