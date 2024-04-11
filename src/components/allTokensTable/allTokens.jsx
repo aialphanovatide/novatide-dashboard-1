@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
+import { saveAs } from "file-saver";
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -17,6 +18,9 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
 import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import createDocument from './download';
+import GooglePicker from '../../libs/google';
+import DownloadIcon from '@mui/icons-material/Download';
+import downloadToDrive from '../../libs/google'
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -44,6 +48,7 @@ export default function AllTokens({ updateList, updateWatchlist }) {
   const [selected, setSelected] = useState([]);
   const [updateToken, setUpdateToken] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState('');
+
 
   const handleSelectedWachlist = (event) => {
     setSelectedWatchlist(event.target.value);
@@ -174,7 +179,8 @@ export default function AllTokens({ updateList, updateWatchlist }) {
   // Asynchronous function to handle download button click
   const handleDownloadButtonClick = async (event, item) => {
     event.stopPropagation();
-    await createDocument(item); // Wait for the document creation process to complete
+    const blob = await createDocument(item); // Wait for the document creation process to complete and download
+    saveAs(blob, `${item.tokenname}.docx`);
   };
 
 
@@ -277,12 +283,14 @@ export default function AllTokens({ updateList, updateWatchlist }) {
                 >
                   <TableCell>
                     <Button
-                      sx={{maxWidth: '80%', }}
+                      sx={{fontSize: '0.8rem', margin: '1rem'}}
                       variant="contained"
+                      startIcon={<DownloadIcon sx={{marginLeft: '1rem'}}/>}
                       onClick={(event) => handleDownloadButtonClick(event, item)}
                     >
-                      download data
+                      download word document
                     </Button>
+                    <GooglePicker item={item}/>
                   </TableCell>
                   <TableCell padding="checkbox">
                     <Checkbox

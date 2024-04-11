@@ -1,4 +1,3 @@
-import { saveAs } from "file-saver";
 import {
     AlignmentType,
     Document,
@@ -7,9 +6,6 @@ import {
     Paragraph,
     TextRun,
     ExternalHyperlink,
-    ImageRun,
-    HorizontalPositionRelativeFrom,
-    VerticalPositionRelativeFrom
 } from "docx";
 
 // Function to capitalize the first letter of a string
@@ -39,7 +35,7 @@ function formatNumber(number) {
       // Join the integer and decimal parts and return
       return parts.join('.');
     }
-  }
+}
 
 
 
@@ -111,6 +107,5 @@ export default async function createDocument(item) {
     });
 
     const blob = await Packer.toBlob(document);
-    saveAs(blob, `${item.tokenname}.docx`);
-    return 'Document generated successfully';
+    return blob;
 }
