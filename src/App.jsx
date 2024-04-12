@@ -8,6 +8,7 @@ import Boards from './components/bots/boards';
 import Login from './components/login/login';
 import { useSelector } from 'react-redux'
 import UserManagement from './components/users/userManagement';
+import Nodes from './components/node/node';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/bots" exact element={<Bots />} />
+            <Route path="/nodes" exact element={<Nodes />} />
             <Route path="/users" exact element={<UserManagement />} />
             <Route path="/bots/:botName" exact element={<Boards />} />
           </Routes>

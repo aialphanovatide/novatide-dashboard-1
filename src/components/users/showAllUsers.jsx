@@ -15,8 +15,6 @@ const UsersTable = ({ updateUserTable }) => {
     const currentUser = useSelector(state => state.user);
     const [showPassword, setShowPassword] = useState(false);
 
-    console.log(users)
-
     const handleToggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
