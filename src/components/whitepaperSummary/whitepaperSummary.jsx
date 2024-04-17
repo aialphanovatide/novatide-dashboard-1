@@ -65,7 +65,7 @@ const WhitepaperSummary = () => {
       <br />
       {/* Sección de creación de resumen de whitepaper */}
       <Typography variant="h4" gutterBottom>
-        Create a Whitepaper Summary
+        Whitepaper Analysis
       </Typography>
       <TextField
         label="Label / Coin"
@@ -81,6 +81,7 @@ const WhitepaperSummary = () => {
       />
       <TextField
         label="Prompt"
+        placeholder="Prompt e.g.: 'Please go to (Whitepaper PDF Link) and create/make a summary'"
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
         fullWidth
@@ -126,7 +127,7 @@ const WhitepaperSummary = () => {
       <br />
       <br />
       <Typography variant="h4" gutterBottom>
-        All Whitepaper Summaries
+        All Whitepaper Analysis
       </Typography>
       <WhitepapersTable
         whitepapers={whitepapers}

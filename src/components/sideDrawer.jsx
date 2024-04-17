@@ -13,6 +13,7 @@ import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useSelector } from 'react-redux'
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 export default function SideMenu({ toggleDrawer, open }) {
   const location = useLocation();
@@ -23,7 +24,7 @@ export default function SideMenu({ toggleDrawer, open }) {
     { text: 'Home', path: '/', icon: <DashboardIcon /> },
     { text: 'Bots', path: '/bots', icon: <TokenIcon /> },
     { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> },
-    { text: 'Whitepaper', path: '/whitepaper', icon: <ViewInArIcon /> }, 
+    { text: 'Whitepaper', path: '/whitepaper', icon: <FindInPageIcon /> }, 
     ...(currentUser.role === 'admin' ? [{ text: 'Users', path: '/users', icon: <GroupIcon /> }] : [])
   ];
   

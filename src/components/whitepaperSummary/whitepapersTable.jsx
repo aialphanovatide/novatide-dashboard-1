@@ -112,8 +112,8 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
           <TableHead>
             <TableRow>
               <TableCell>Label / Coin</TableCell>
+              <TableCell>Whitepaper Analysis</TableCell>
               <TableCell>Created At</TableCell>
-              <TableCell>Summary</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -121,10 +121,10 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
             {filteredWhitepapers.map((whitepaper) => (
               <TableRow key={whitepaper.id}>
                 <TableCell>{whitepaper.label}</TableCell>
-                <TableCell>{formatDate(whitepaper.created_at)}</TableCell>
                 <TableCell>
                   {renderPerplexitySummary(whitepaper)}
                 </TableCell>
+                <TableCell>{formatDate(whitepaper.created_at)}</TableCell>
                 <TableCell>
                   <IconButton
                     onClick={() => handleDelete(whitepaper.id)}
@@ -138,6 +138,9 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 };
