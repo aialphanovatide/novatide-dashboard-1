@@ -30,6 +30,12 @@ const WhitepaperSummary = () => {
     }
   };
 
+  const clearInputs = () => {
+    setLabel("");
+    setSummary("");
+  };
+
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -39,6 +45,7 @@ const WhitepaperSummary = () => {
       );
       setSnackbarMessage(response.data.message);
       setSnackbarSeverity("success");
+      clearInputs();
       updateWhitepapers(); // Actualiza los whitepapers después de crear uno nuevo
     } catch (error) {
       setSnackbarMessage(
