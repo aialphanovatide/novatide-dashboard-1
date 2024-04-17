@@ -9,6 +9,7 @@ import Login from './components/login/login';
 import { useSelector } from 'react-redux'
 import UserManagement from './components/users/userManagement';
 import Nodes from './components/node/node';
+import WhitepaperAnalysis from './components/whitepaperSummary/whitepaperSummary'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
             <Route path="/nodes" exact element={<Nodes />} />
             <Route path="/users" exact element={<UserManagement />} />
             <Route path="/bots/:botName" exact element={<Boards />} />
+            <Route path="/whitepaper" exact element={<WhitepaperAnalysis />} />
           </Routes>
         </>
       ): <Login/>}

@@ -22,7 +22,8 @@ export default function SideMenu({ toggleDrawer, open }) {
   const menuItems = [
     { text: 'Home', path: '/', icon: <DashboardIcon /> },
     { text: 'Bots', path: '/bots', icon: <TokenIcon /> },
-    { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> }, 
+    { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> },
+    { text: 'Whitepaper', path: '/whitepaper', icon: <ViewInArIcon /> }, 
     ...(currentUser.role === 'admin' ? [{ text: 'Users', path: '/users', icon: <GroupIcon /> }] : [])
   ];
   
