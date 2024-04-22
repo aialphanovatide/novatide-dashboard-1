@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import WhitepapersTable from "./whitepapersTable";
+import pdfToText from "react-pdftotext"; // Importar la función pdfToText
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -18,35 +19,43 @@ const WhitepaperSummary = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("info");
-  const [whitepapers, setWhitepapers] = useState([]); // Estado para almacenar los whitepapers
+  const [whitepapers, setWhitepapers] = useState([]);
+  const [file, setFile] = useState(null);
 
-  // Función para actualizar los whitepapers después de crear uno nuevo
-  const updateWhitepapers = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/get_whitepapers`);
-      setWhitepapers(response.data.whitepapers);
-    } catch (error) {
-      console.error("Error fetching whitepapers:", error);
-    }
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
 
   const clearInputs = () => {
     setLabel("");
     setSummary("");
+    setFile("");
   };
-
-
   const handleSubmit = async () => {
     setLoading(true);
+  
     try {
+      let pdfText = ""; // Inicializar pdfText aquí para que esté disponible fuera del bloque if
+  
+      if (file) {
+        pdfText = await extractText(file); // Asignar el texto extraído a pdfText
+      }
+      console.log("pdfText", pdfText)
+      // Añadir label y summary al formData
+      const formData = new FormData();
+      formData.append("label", label);
+      formData.append("summary", summary);
+      formData.append("pdfText", pdfText); // Agregar el texto extraído al formData
+  
+      // Envío de formData al servidor
       const response = await axios.post(
         `${BASE_URL}/create_whitepaper_analysis`,
-        { label, summary }
+        { label, summary, pdfText }
       );
       setSnackbarMessage(response.data.message);
       setSnackbarSeverity("success");
       clearInputs();
-      updateWhitepapers(); // Actualiza los whitepapers después de crear uno nuevo
+      updateWhitepapers();
     } catch (error) {
       setSnackbarMessage(
         error.response?.data?.message || "An unexpected error occurred"
@@ -57,6 +66,7 @@ const WhitepaperSummary = () => {
       setSnackbarOpen(true);
     }
   };
+  
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -65,12 +75,31 @@ const WhitepaperSummary = () => {
     setSnackbarOpen(false);
   };
 
+  const updateWhitepapers = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/get_whitepapers`);
+      setWhitepapers(response.data.whitepapers);
+    } catch (error) {
+      console.error("Error fetching whitepapers:", error);
+    }
+  };
+
+  // Función para extraer texto del PDF utilizando react-pdftotext
+  const extractText = async (file) => {
+    try {
+      const text = await pdfToText(file);
+      return text;
+    } catch (error) {
+      console.error("Failed to extract text from PDF:", error);
+      throw error;
+    }
+  };
+
   return (
     <div style={{ width: "65%", margin: "auto" }}>
       <hr />
       <br />
       <br />
-      {/* Sección de creación de resumen de whitepaper */}
       <Typography variant="h4" gutterBottom>
         Whitepaper Analysis
       </Typography>
@@ -101,6 +130,7 @@ const WhitepaperSummary = () => {
           },
         }}
       />
+      <input type="file" accept=".pdf" onChange={handleFileChange} />
       <Tooltip title="This process may take 1 to 3 minutes" placement="top">
         <span>
           <br />
