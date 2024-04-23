@@ -17,8 +17,10 @@ import TextField from "@mui/material/TextField";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const WhitepapersTable = ({ updateWhitepapers }) => {
+
   const [whitepapers, setWhitepapers] = useState([]);
   const [filter, setFilter] = useState("");
+  const [expandedRows, setExpandedRows] = useState({});
 
   useEffect(() => {
     const fetchWhitepapers = async () => {
@@ -33,7 +35,7 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
     fetchWhitepapers();
   }, [updateWhitepapers]);
 
-  const [expandedRows, setExpandedRows] = useState({});
+
 
   const handleDelete = async (id) => {
     try {
@@ -60,12 +62,29 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
     const showMoreButton = summaryLines.length > maxLines && !shouldExpand;
     const showLessButton = shouldExpand;
 
+    const phrasesToBold = [
+      "General Summary",
+      "Competitor Summary",
+      "Community Summary",
+      "Platform Data Summary",
+      "Tokenomics Summary",
+      "Circulating Supply Summary",
+      "Revenue Summary",
+      "Team Summary",
+      "Partners and Investors Summary"
+    ];
+
+
     return (
-      <div>
+        <div>
         {displayLines.map((line, index) => (
-          <Typography key={index} variant="body2" gutterBottom>
-            {line}
-          </Typography>
+        <div key={index}>
+          {phrasesToBold.some(phrase => line.includes(phrase)) ? (
+            <h3 key={index}><strong>{line}</strong></h3>
+          ) : (
+            <Typography variant="body2" gutterBottom>{line}</Typography>
+          )}
+        </div>
         ))}
         {showMoreButton && (
           <IconButton onClick={() => toggleExpand(whitepaper.id)}>
@@ -105,8 +124,7 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
             },
           }}
       />
-      <br></br>
-      <br></br>
+
       <TableContainer  component={Paper}>
         <Table>
           <TableHead>

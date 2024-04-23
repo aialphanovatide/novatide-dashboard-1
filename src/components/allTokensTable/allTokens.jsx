@@ -74,7 +74,7 @@ export default function AllTokens({ updateList, updateWatchlist }) {
       setUpdateToken(prevState => !prevState);
       setSelected([])
     } catch (error) {
-      console.log('error: ', error)
+      console.error('error: ', error)
     }
   };
 

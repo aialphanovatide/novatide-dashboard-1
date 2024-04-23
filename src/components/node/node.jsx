@@ -3,13 +3,12 @@ import React, { useState, useEffect } from 'react';
 import './Nodes.css'; 
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import SystemInfo from './system';
 
 const VITE_NODE_SERVER_URL = import.meta.env.VITE_NODE_SERVER_URL;
 
 const Nodes = () => {
   const [dockerInfo, setDockerInfo] = useState([]);
-  console.log('dockerInfo:', dockerInfo)
+
 
   useEffect(() => {
     const fetchData = async () => {

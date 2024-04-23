@@ -1,0 +1,36 @@
+.system-info-title {
+    margin: 1rem 0;
+    font-size: 1.5rem; /* Increase font size for the title */
+    text-align: center; /* Center align the title */
+  }
+  
+  .system-stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Increase minimum width of cards */
+    gap: 20px;
+    width: 95%;
+    margin-top: 20px;
+  }
+  
+  .stat-card {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .stat-card h3 {
+    margin-top: 0;
+    font-size: 1.2rem; 
+    color: #333; 
+    text-transform: capitalize;
+  }
+  
+  .stat-card p {
+    margin: 10px 0; 
+    font-size: 1.2rem; 
+    font-weight: normal; 
+    color: #555; 
+  }
+  

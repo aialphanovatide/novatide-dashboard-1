@@ -22,6 +22,7 @@ const WhitepaperSummary = () => {
   const [whitepapers, setWhitepapers] = useState([]);
   const [file, setFile] = useState(null);
 
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -40,7 +41,7 @@ const WhitepaperSummary = () => {
       if (file) {
         pdfText = await extractText(file); // Asignar el texto extraído a pdfText
       }
-      console.log("pdfText", pdfText)
+    
       // Añadir label y summary al formData
       const formData = new FormData();
       formData.append("label", label);
@@ -136,15 +137,15 @@ const WhitepaperSummary = () => {
           <br />
           <br />
           <Button
+            sx={{minWidth: 150}}
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            disabled={loading}
+            disabled={loading || !label || !summary}
             style={{ marginRight: 8 }}
           >
-            Submit
+            {loading ? <CircularProgress size={24} /> : 'Submit'}
           </Button>
-          {loading && <CircularProgress size={24} />}
         </span>
       </Tooltip>
       <Snackbar

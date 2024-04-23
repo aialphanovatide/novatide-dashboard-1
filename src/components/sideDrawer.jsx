@@ -25,8 +25,8 @@ export default function SideMenu({ toggleDrawer, open }) {
     { text: 'NV Bot', path: '/', icon: <DashboardIcon /> },
     { text: 'Bots', path: '/bots', icon: <TokenIcon /> },
     { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> },
-    { text: 'Whitepaper', path: '/whitepaper', icon: <FindInPageIcon /> }, 
-    { text: 'Servers', path: '/servers', icon: <StorageIcon /> }, 
+    { text: 'Whitepaper', path: '/whitepaper', icon: <FindInPageIcon /> },  
+    ...(currentUser.role === 'admin' ? [{ text: 'Servers', path: '/servers', icon: <StorageIcon /> }] : []),
     ...(currentUser.role === 'admin' ? [{ text: 'Users', path: '/users', icon: <GroupIcon /> }] : [])
   ];
   
