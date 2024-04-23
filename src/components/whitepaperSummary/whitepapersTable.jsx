@@ -107,14 +107,14 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
       />
       <br></br>
       <br></br>
-      <TableContainer component={Paper}>
+      <TableContainer  component={Paper}>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell>Label / Coin</TableCell>
-              <TableCell>Whitepaper Analysis</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Actions</TableCell>
+            <TableRow sx={{textAlign: 'center', fontWeight: 'bold'}}>
+              <TableCell sx={{textAlign: 'center', fontWeight: 'bold'}}>Label / Coin</TableCell>
+              <TableCell sx={{textAlign: 'center', fontWeight: 'bold'}}>Whitepaper Analysis</TableCell>
+              <TableCell sx={{textAlign: 'center', fontWeight: 'bold'}}>Created At</TableCell>
+              <TableCell sx={{textAlign: 'center', fontWeight: 'bold'}}>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -129,6 +129,7 @@ const WhitepapersTable = ({ updateWhitepapers }) => {
                   <IconButton
                     onClick={() => handleDelete(whitepaper.id)}
                     color="warning"
+                  
                   >
                     <DeleteIcon />
                   </IconButton>

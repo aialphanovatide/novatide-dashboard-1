@@ -76,3 +76,12 @@
     font-weight: bold;
   }
   
+  .memory-stats-container{
+    display: flex;
+    flex-direction: column;
+    /* border: #4caf50 solid 1px; */
+  }
+
+  /* .memory_stats_detail{
+    border: #4caf50 solid 1px;
+  } */

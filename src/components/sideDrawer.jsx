@@ -14,6 +14,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useSelector } from 'react-redux'
 import FindInPageIcon from '@mui/icons-material/FindInPage';
+import StorageIcon from '@mui/icons-material/Storage';
 
 export default function SideMenu({ toggleDrawer, open }) {
   const location = useLocation();
@@ -21,10 +22,11 @@ export default function SideMenu({ toggleDrawer, open }) {
 
   // Define the menu items with text, path, and icon
   const menuItems = [
-    { text: 'Home', path: '/', icon: <DashboardIcon /> },
+    { text: 'NV Bot', path: '/', icon: <DashboardIcon /> },
     { text: 'Bots', path: '/bots', icon: <TokenIcon /> },
     { text: 'Nodes', path: '/nodes', icon: <ViewInArIcon /> },
     { text: 'Whitepaper', path: '/whitepaper', icon: <FindInPageIcon /> }, 
+    { text: 'Servers', path: '/servers', icon: <StorageIcon /> }, 
     ...(currentUser.role === 'admin' ? [{ text: 'Users', path: '/users', icon: <GroupIcon /> }] : [])
   ];
   
