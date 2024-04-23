@@ -18,6 +18,7 @@ const Nodes = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
+        console.log('response: ', data)
         setDockerInfo(data.data.containers);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -29,7 +30,7 @@ const Nodes = () => {
 
   return (
     <div className="nodes-container">
-      {/* <SystemInfo/> */}
+      
       <h2 className='nodes-title'>Nodes</h2>
       <div className="nodes-subcontainer">
         {dockerInfo.length > 0 ? dockerInfo.map((node, index) => (

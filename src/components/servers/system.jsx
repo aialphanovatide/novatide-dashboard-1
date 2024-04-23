@@ -6,11 +6,12 @@ import './system.css'
 const VITE_NODE_SERVER_URL = import.meta.env.VITE_NODE_SERVER_URL;
 
 const SystemStats = ({ data }) => {
+ 
   const renderRamStats = () => {
     return Object.entries(data.RAM).map(([key, value]) => (
       <div key={key} className="stat-card">
         <h3>{key.replace(/_/g, ' ')} Memory</h3> 
-        <p>{value} GB</p>
+        <p>{value} {key === 'percentage_used' ? '%': 'GB'}</p>
       </div>
     ));
   };
@@ -60,8 +61,8 @@ const SystemInfo = () => {
   }, []);
 
   return (
-    <div className="system-info-container">
-      <div>
+    <div >
+      <div className="system-info-container">
       <h2 className='system-info-title'>Node Server</h2>
       {systemInfo ? (
         <div className="system-info-content">
