@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import './system.css'
 
 const VITE_NODE_SERVER_URL = import.meta.env.VITE_NODE_SERVER_URL;
+const VITE_AI_ALPHA_SYSTEM_INFO_URL = import.meta.env.VITE_AI_ALPHA_SYSTEM_INFO_URL;
 
 const SystemStats = ({ data }) => {
  
@@ -41,8 +42,10 @@ const SystemStats = ({ data }) => {
 
 const SystemInfo = () => {
   const [systemInfo, setSystemInfo] = useState(null);
+  const [aiAlphaSystemInfo, setAiAlphaSystemInfo] = useState(null);
+  console.log('aiAlphaSystemInfo: ', aiAlphaSystemInfo)
   
-
+ // gets node server system info
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,6 +63,24 @@ const SystemInfo = () => {
     fetchData();
   }, []);
 
+  // gets ai alpha system info
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${VITE_AI_ALPHA_SYSTEM_INFO_URL}/system_info`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setAiAlphaSystemInfo(data.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div >
       <div className="system-info-container">
@@ -67,6 +88,19 @@ const SystemInfo = () => {
       {systemInfo ? (
         <div className="system-info-content">
           <SystemStats data={systemInfo}/>
+        </div>
+      ) : (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '10vh' }}>
+          <CircularProgress />
+        </Box>
+      )}
+      </div>
+     
+      <div className="system-info-container">
+      <h2 className='system-info-title'>AI Alpha Server</h2>
+      {aiAlphaSystemInfo ? (
+        <div className="system-info-content">
+          <SystemStats data={aiAlphaSystemInfo}/>
         </div>
       ) : (
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '10vh' }}>
