@@ -9,7 +9,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import WhitepapersTable from "./whitepapersTable";
 import pdfToText from "react-pdftotext"; // Importar la función pdfToText
-
+import InfoSign from "./infoSign";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const WhitepaperSummary = () => {
@@ -22,7 +22,6 @@ const WhitepaperSummary = () => {
   const [whitepapers, setWhitepapers] = useState([]);
   const [file, setFile] = useState(null);
 
-
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
@@ -34,20 +33,20 @@ const WhitepaperSummary = () => {
   };
   const handleSubmit = async () => {
     setLoading(true);
-  
+
     try {
       let pdfText = ""; // Inicializar pdfText aquí para que esté disponible fuera del bloque if
-  
+
       if (file) {
         pdfText = await extractText(file); // Asignar el texto extraído a pdfText
       }
-    
+
       // Añadir label y summary al formData
       const formData = new FormData();
       formData.append("label", label);
       formData.append("summary", summary);
       formData.append("pdfText", pdfText); // Agregar el texto extraído al formData
-  
+
       // Envío de formData al servidor
       const response = await axios.post(
         `${BASE_URL}/create_whitepaper_analysis`,
@@ -67,7 +66,6 @@ const WhitepaperSummary = () => {
       setSnackbarOpen(true);
     }
   };
-  
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -118,7 +116,7 @@ const WhitepaperSummary = () => {
       />
       <TextField
         label="Prompt"
-        placeholder="Prompt e.g.: 'Please go to (Whitepaper PDF Link) and create/make a summary'"
+        placeholder="Enter a prompt (you can use the information sign (?) poster to find out how to write it)."
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
         fullWidth
@@ -129,22 +127,24 @@ const WhitepaperSummary = () => {
           style: {
             backgroundColor: "white",
           },
+          endAdornment: <InfoSign text="If you want to summarize a white paper using a PDF link, use a prompt similar to this: 'Go to [link] and make a summary'. If you want to provide a Google Docs link and summarize a white paper, write: 'Go to this Google Docs document [link] and make a summary'. And if you want to upload a PDF file and have it summarize a white paper using that file, write something like this: 'Please make a summary using this info:'" />, 
         }}
       />
+
       <input type="file" accept=".pdf" onChange={handleFileChange} />
       <Tooltip title="This process may take 1 to 3 minutes" placement="top">
         <span>
           <br />
           <br />
           <Button
-            sx={{minWidth: 150}}
+            sx={{ minWidth: 150 }}
             variant="contained"
             color="primary"
             onClick={handleSubmit}
             disabled={loading || !label || !summary}
             style={{ marginRight: 8 }}
           >
-            {loading ? <CircularProgress size={24} /> : 'Submit'}
+            {loading ? <CircularProgress size={24} /> : "Submit"}
           </Button>
         </span>
       </Tooltip>
