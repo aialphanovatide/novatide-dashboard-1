@@ -48,6 +48,8 @@ export default function Home() {
         setOpenCreateWatchlist(!openCreateWatchlist);
     };
 
+    console.log('token data: ', tokenData)
+
    
     const handleResponseReceived = (data) => {
         setTokenData(data);
@@ -372,6 +374,57 @@ export default function Home() {
                         tokenData.response.response.staking_reward_response.reward_rate ?
                         formatNumber(tokenData.response.response.staking_reward_response.reward_rate) : 'N/A'}</p>
                 </div>
+
+                <div className='dextool-data-main-container'>
+                {Array.isArray(tokenData.response.response.dextool) && tokenData.response.response.dextool.length > 0 && (
+                    tokenData.response.response.dextool.map((token, index) => (
+                        <div className='dextool-item' key={index}>
+                            {Object.entries(token).map(([key, value]) => {
+                                
+                                if (key === 'buyTax') {
+                                    key = 'Buy Tax';
+                                }
+                                if (key === 'sellTax') {
+                                    key = 'Sell tax';
+                                }
+                                if (key === 'chain_id') {
+                                    key = 'Chain ID';
+                                }
+                                if (key === 'chain_name') {
+                                    key = 'chain name';
+                                }
+                                if (key === 'isBlacklisted') {
+                                    key = 'Blacklisted';
+                                }
+                                if (key === 'isContractRenounced') {
+                                    key = 'contract renounced';
+                                }
+                                if (key === 'isPotentiallyScam') {
+                                    key = 'Scam risk';
+                                }
+                                if (key === 'isProxy') {
+                                    key = 'Proxy Contract';
+                                }
+                               
+                                if (key === 'isHoneypot') {
+                                    key = 'HoneyPot';
+                                }
+                                if (key === 'isMintable') {
+                                    key = 'Mintable';
+                                }
+                                
+                                return (
+                                    <div className='dextool-item-container' key={key}>
+                                        <p className='tokenData-title'>{key}:</p>
+                                        <p className='tokenData-value'>{value || 'N/A'}</p>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))
+                    )}
+                </div>
+
             </div>}
 
 
