@@ -49,7 +49,7 @@ export default function AllTokens({ updateList, updateWatchlist }) {
   const [updateToken, setUpdateToken] = useState(false);
   const [selectedWatchlist, setSelectedWatchlist] = useState('');
 
-
+  
   const handleSelectedWachlist = (event) => {
     setSelectedWatchlist(event.target.value);
   };
@@ -157,7 +157,7 @@ export default function AllTokens({ updateList, updateWatchlist }) {
 
   // Organize the order to display the column titles
   const idLogoGeckoId = ["logo", "symbol", "gecko_id"];
-  const dates = ["created_at", "updated_at"];
+  const dates = ["updated_at", "created_at"];
   const columnTitle = tokensList.length > 0 && Object.keys(tokensList[0]);
 
   // Exclude items from idLogoGeckoId and dates

@@ -48,8 +48,6 @@ export default function Home() {
         setOpenCreateWatchlist(!openCreateWatchlist);
     };
 
-    console.log('token data: ', tokenData)
-
    
     const handleResponseReceived = (data) => {
         setTokenData(data);
