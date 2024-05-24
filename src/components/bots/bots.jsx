@@ -23,6 +23,9 @@ const BASE_URL_NOVATIDE_URL = import.meta.env.VITE_API_URL;
 
 
 const BotItem = ({ item, refreshBots  }) => {
+
+  console.log('item: ', item)
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [newInterval, setNewInterval] = useState('');
@@ -40,12 +43,23 @@ const BotItem = ({ item, refreshBots  }) => {
 
   const handleChangeStatus = async () => {
     try {
-      const command = item.status ? 'deactivate' : 'activate'
-      const response = await axios.post(`${BASE_URL_NOVATIDE_URL}/multi-bot?command=${command}&bot_id=${item.id}`);
+      const command = item.status ? 'deactivate' : 'activate';
+      
+      const url = `${BASE_URL_MONDAY_BOT}/activate/nv_bot?command=${command}&bot_id=${item.id}`;
+      const url_1 = `${BASE_URL_NOVATIDE_URL}/multi-bot?command=${command}&bot_id=${item.id}`;
+      
+      let final_url;
+      if (item.name === 'fundamental analysis') {
+        final_url = url_1;
+      } else {
+        final_url = url;
+      }
+      
+      const response = await axios.post(final_url);
       setSnackbarMessage(response.data.response);
       setSnackbarSeverity(response.data.success ? 'success' : 'error');
       setSnackbarOpen(true);
-      refreshBots()
+      refreshBots();
     } catch (error) {
       console.error('Error changing bot status:', error.message);
       setSnackbarMessage('Error changing bot status');
@@ -56,7 +70,18 @@ const BotItem = ({ item, refreshBots  }) => {
 
   const handleEditInterval = async () => {
     try {
-      const response = await axios.post(`${BASE_URL_NOVATIDE_URL}/multi-bot/edit-interval?bot_id=${item.id}&interval=${newInterval}`);
+
+      const url = `${BASE_URL_MONDAY_BOT}/update_interval?bot_id=${item.id}&new_interval=${newInterval}`;
+      const url_1 = `${BASE_URL_NOVATIDE_URL}/multi-bot/edit-interval?bot_id=${item.id}&interval=${newInterval}`;
+      
+      let final_url;
+      if (item.name === 'fundamental analysis') {
+        final_url = url_1;
+      } else {
+        final_url = url;
+      }
+
+      const response = await axios.post(final_url);
       setSnackbarMessage(response.data.response);
       setSnackbarSeverity(response.data.success ? 'success' : 'error');
       setSnackbarOpen(true);
@@ -102,8 +127,8 @@ const BotItem = ({ item, refreshBots  }) => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
-          <MenuItem disabled={item.name === 'nv invest'} onClick={() => setOpenDialog(true)}>Edit Interval</MenuItem>
-          <MenuItem disabled={item.name === 'nv invest'} onClick={handleChangeStatus}>{item.status ? 'Deactivate' : 'Activate'}</MenuItem>
+          <MenuItem onClick={() => setOpenDialog(true)}>Edit Interval</MenuItem>
+          <MenuItem onClick={handleChangeStatus}>{item.status ? 'Deactivate' : 'Activate'}</MenuItem>
         </Menu>
       </div>
       <Link to={`/bots/${item.name}`} className='bot-link'>
