@@ -41,6 +41,7 @@ const BotItem = ({ item, refreshBots  }) => {
     setAnchorEl(null);
   };
 
+  // Activate or deactivate a bot
   const handleChangeStatus = async () => {
     try {
       const command = item.status ? 'deactivate' : 'activate';
@@ -68,6 +69,7 @@ const BotItem = ({ item, refreshBots  }) => {
     }
   };
 
+  // Edit the interval time of execution of a Bot
   const handleEditInterval = async () => {
     try {
 
