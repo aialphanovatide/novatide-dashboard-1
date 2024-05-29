@@ -190,30 +190,34 @@ const Bots = () => {
 
   const getBots = async () => {
     try {
-      const novatideResponse = await axios.get(`${BASE_URL_NOVATIDE_URL}/bots`, {
+      const novatidePromise = axios.get(`${BASE_URL_NOVATIDE_URL}/bots`, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
-
-      const mondayBotResponse = await axios.get(`${BASE_URL_MONDAY_BOT}/bots`, {
+  
+      const mondayBotPromise = axios.get(`${BASE_URL_MONDAY_BOT}/bots`, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
-
-      if (novatideResponse.status === 200 && mondayBotResponse.status === 200) {
-        const novatideBots = novatideResponse.data.bots;
-        const mondayBots = mondayBotResponse.data.bots;
-        const mergedBots = [...novatideBots, ...mondayBots];
-        setBots(mergedBots);
-        setLoading(false);
-      }
+  
+      const responses = await Promise.allSettled([novatidePromise, mondayBotPromise]);
+  
+      const successfulResponses = responses
+        .filter(response => response.status === 'fulfilled')
+        .map(response => response.value);
+  
+      const mergedBots = successfulResponses.flatMap(response => response.data.bots);
+  
+      setBots(mergedBots);
     } catch (error) {
       console.error('Error fetching bots:', error);
+    } finally {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     getBots();

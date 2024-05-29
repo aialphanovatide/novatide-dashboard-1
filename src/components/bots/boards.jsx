@@ -8,12 +8,19 @@ const BASE_URL_MONDAY_BOT = import.meta.env.VITE_NOVATIDE_MONDAY_BOT_URL;
 const Boards = () => {
     const [boards, setBoards] = useState([]);
     const { botName } = useParams();
+
+    let key = 'master sheet'
+    if (botName === 'nv invest - monitor'){
+        key = 'take profit'
+    }
+
+    console.log('botName: ', botName)
     
     // Function to fetch all Monday Boards
     useEffect(() => {
         const getBoards = async () => {
             try {
-                const response = await axios.get(`${BASE_URL_MONDAY_BOT}/get_all_boards`, {
+                const response = await axios.get(`${BASE_URL_MONDAY_BOT}/search_boards?query=${key}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     }
@@ -21,7 +28,8 @@ const Boards = () => {
 
                 if (response.status === 200) {
                     const data = response.data;
-                    setBoards(data.boards);
+                    console.log('data: ', data)
+                    setBoards(data.data);
                 }
             } catch (error) {
                 console.error('Error fetching boards:', error);
