@@ -14,7 +14,7 @@ const Boards = () => {
         key = 'take profit'
     }
 
-    console.log('botName: ', botName)
+
     
     // Function to fetch all Monday Boards
     useEffect(() => {
@@ -28,7 +28,6 @@ const Boards = () => {
 
                 if (response.status === 200) {
                     const data = response.data;
-                    console.log('data: ', data)
                     setBoards(data.data);
                 }
             } catch (error) {

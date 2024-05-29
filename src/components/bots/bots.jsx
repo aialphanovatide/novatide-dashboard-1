@@ -24,8 +24,6 @@ const BASE_URL_NOVATIDE_URL = import.meta.env.VITE_API_URL;
 
 const BotItem = ({ item, refreshBots  }) => {
 
-  console.log('item: ', item)
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [newInterval, setNewInterval] = useState('');
